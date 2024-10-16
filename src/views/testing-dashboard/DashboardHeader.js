@@ -65,15 +65,15 @@ const DashboardHeader = () => {
       </div>
 
       {/* Sidebar */}
-      <div
+      {/* <div
         className={`fixed inset-0 bg-gray-900 bg-opacity-50 transition-opacity duration-300 ${
           isOpen ? "opacity-100" : "opacity-0 pointer-events-none"
         }`}
         onClick={toggleNavbar}
-      ></div>
+      ></div> */}
 
       <nav
-        className={`mt-10 w-full md:w-1/3 lg:w-1/6 h-full transition-transform duration-300 transform ${
+        className={`absolute w-full md:w-1/3 lg:w-1/6 h-full transition-transform duration-300 transform ${
           isOpen ? "translate-x-0" : "-translate-x-full"
         }`}
       >
