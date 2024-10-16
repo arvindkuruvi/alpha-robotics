@@ -1,0 +1,9 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.cdnfonts.com/css/zona-pro?styles=96462,96463');
+* {
+  margin: 0;
+  padding: 0;
+}

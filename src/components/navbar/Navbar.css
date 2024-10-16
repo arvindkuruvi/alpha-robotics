@@ -1,0 +1,39 @@
+.rounded-btn {
+  border-radius: 1.5rem;
+  width: 100%;
+  cursor: pointer;
+}
+.rounded-btn:hover {
+  font-weight: 600;
+  transition: 0.5s all;
+}
+
+.navbar-sign-up-btn {
+  color: alphaGreen;
+  border: alphaGreen;
+  background-color: white;
+}
+.navbar-login-btn {
+  color: white;
+}
+
+.breadcrumb {
+  color: white;
+  font-weight: 600;
+  font-size: 2rem;
+  border: none;
+  background-color: none;
+  cursor: pointer;
+}
+
+.mobile-navbar-link {
+  color: white;
+  font: "1.5rem";
+  font-weight: 600;
+  margin-bottom: 2px;
+  /* transition: all 0.8s ease; */
+}
+
+.mobile-navbar-link:hover {
+  border: 1px solid white;
+}

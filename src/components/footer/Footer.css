@@ -1,0 +1,22 @@
+.input-container {
+  display: flex;
+}
+
+input {
+  padding: 5px 10px;
+  border: 1px solid #ccc;
+  border-right: none;
+  border-radius: 10px 0 0 10px;
+  outline: none;
+  width: auto;
+}
+
+button {
+  padding: 5px 10px;
+  border: 1px solid #ccc;
+  border-left: none;
+  outline: none;
+  background-color: white;
+  border-radius: 0 10px 10px 0;
+  cursor: pointer;
+}
