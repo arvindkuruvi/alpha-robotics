@@ -1,14 +1,18 @@
 /** @type {import('tailwindcss').Config} */
+const colors = require("tailwindcss/colors");
 module.exports = {
   content: ["./src/**/*.{js,jsx,ts,tsx}"],
   theme: {
     colors: {
+      ...colors,
       alphaPurple: "#101d2a",
       alphaGreen: "#21ab51",
       alphaWhite: "#FFFFFF",
       alphaGray: "#808080",
       alphaBlack: "#000000",
       alphaLightGray: "#BFB8B8",
+      alphaRed: "#c53030",
+      alphaLightRed: "",
     },
     extend: {
       fontFamily: {

@@ -6,6 +6,8 @@ import Landing from "./views/landing/Landing";
 import Pricing from "./views/pricing/Pricing";
 import ConnectBinance from "./views/binance/ConnectBinance";
 import Dashboard from "./views/testing-dashboard/Dashboard";
+import AuthRoutes from "./views/auth/AuthRoutes";
+import AuthProvider from "./views/auth/AuthProvider";
 
 function App() {
   return (
@@ -19,6 +21,9 @@ function App() {
         <Route path="/signup" element={<SignupPage />} />
       </Routes>
     </BrowserRouter>
+    // <AuthProvider>
+    //   <AuthRoutes />
+    // </AuthProvider>
   );
 }
 
