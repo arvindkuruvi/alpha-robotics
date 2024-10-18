@@ -1,17 +1,93 @@
-import React from "react";
-import loginBg from "./assets/loginBg.png";
+import React, { useState } from "react";
 import { FaInstagram } from "react-icons/fa";
 import { TbBrandThreads } from "react-icons/tb";
 import { FiFacebook } from "react-icons/fi";
 import { FaXTwitter } from "react-icons/fa6";
 import { Link } from "react-router-dom";
-// import
+import { ErrorAlert, SuccessAlert } from "../../components/alert/Alert";
+import { LOGIN_URL, SIGN_UP_URL } from "../../constants/Constants";
+import axios from "axios";
+
 export default function SignupPage() {
+  let [passWordType, setPasswordType] = useState(true);
+  let [errorMessage, setErrorMessage] = useState("");
+  let [successMessage, setSuccessMessage] = useState("");
+
+  const [inputs, setInputs] = useState({
+    username: "",
+    email: "",
+    phone_number: "",
+    password: "",
+  });
+
+  const handleSubmitEvent = async (e) => {
+    e.preventDefault();
+    setErrorMessage("");
+
+    if (
+      inputs.username !== "" &&
+      inputs.password !== "" &&
+      inputs.phone_number !== "" &&
+      inputs.email !== ""
+    ) {
+      console.log("inpts", inputs);
+
+      try {
+        const result = await axios.post(SIGN_UP_URL, inputs);
+        if (result.status.toString().startsWith("2")) {
+          setInputs({
+            username: "",
+            email: "",
+            phone_number: "",
+            password: "",
+          });
+
+          let data = result.data;
+          setSuccessMessage(data.message);
+        }
+      } catch (err) {
+        let errors = [];
+
+        let errorData = err.response.data;
+
+        if (errorData.username) {
+          console.debug("adding username errors");
+          errors.push(...errorData.username);
+        }
+
+        if (errorData.email) {
+          console.debug("adding email errors");
+          errors.push(...errorData.email);
+        }
+
+        if (errorData.phone_number) {
+          console.debug("adding phone_number errors");
+          errors.push(...errorData.phone_number);
+        }
+
+        const joinedString = errors.join(" \n");
+
+        setErrorMessage(joinedString);
+      }
+    } else {
+      setErrorMessage("Please fill the below details");
+    }
+  };
+
+  const handleInput = (e) => {
+    const { name, value } = e.target;
+    setInputs((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
+  const togglePasswordtype = () => {
+    setPasswordType(!passWordType);
+  };
+
   return (
-    <div
-      className="flex flex-col md:flex-row h-screen bg-cover bg-center bg-no-repeat text-white bg-black"
-      // style={{ backgroundImage: `url(${loginBg})` }}
-    >
+    <div className="flex flex-col md:flex-row h-screen bg-cover bg-center bg-no-repeat text-white gradient-bg">
       {/* Left Section */}
       <div className="w-full md:w-1/2 flex flex-col justify-center items-start p-8 md:p-16 max-sm:mt-14">
         <div className="text-2xl sm:text-4xl md:text-5xl">
@@ -30,33 +106,43 @@ export default function SignupPage() {
             Register your account to get started today..!
           </p>
 
-          <form className="space-y-4 ">
+          <div className="space-y-4">
+            {errorMessage ? <ErrorAlert message={errorMessage} /> : null}
+            {successMessage ? <SuccessAlert message={successMessage} /> : null}
             <div>
-              <label className="block  mb-1 text-[12px]" htmlFor="username">
+              <label
+                className="block  mb-1 font-md text-left"
+                htmlFor="username"
+              >
                 Username*
               </label>
               <input
-                id="username"
+                name="username"
                 type="text"
+                value={inputs.username}
+                onChange={handleInput}
                 className="w-full px-4 p-3 rounded-3xl border bg-transparent  outline-none "
                 placeholder="Hariharan .S"
               />
             </div>
-
             <div>
-              <label className="block  mb-1 text-[12px]" htmlFor="email">
+              <label className="block  mb-1 font-md text-left" htmlFor="email">
                 Email*
               </label>
               <input
-                id="email"
-                type="email"
+                name="email"
+                type="text"
+                value={inputs.email}
+                onChange={handleInput}
                 className="w-full px-4 py-3 rounded-3xl border bg-transparent outline-none "
                 placeholder="hariuxi.dsgn@gmail.com"
               />
             </div>
-
             <div>
-              <label className="block  mb-1 text-[12px]" htmlFor="phone">
+              <label
+                className="block  mb-1 font-md text-left"
+                htmlFor="phone_number"
+              >
                 Phone Number*
               </label>
               <div className="flex rounded-3xl">
@@ -64,38 +150,46 @@ export default function SignupPage() {
                   <span className="">🇮🇳</span>
                 </div>
                 <input
-                  id="phone"
+                  name="phone_number"
                   type="text"
+                  value={inputs.phone_number}
+                  onChange={handleInput}
                   className="w-full px-4 py-3 rounded-r-3xl border bg-transparent outline-none  "
-                  placeholder="+91 97913 36435"
+                  placeholder="97913 36435"
                 />
               </div>
             </div>
-
             <div>
-              <label className="block  mb-1 text-[12px]" htmlFor="password">
+              <label
+                className="block  mb-1 font-md text-left"
+                htmlFor="password"
+              >
                 Password*
               </label>
               <div className="relative">
                 <input
-                  id="password"
-                  type="password"
+                  name="password"
+                  value={inputs.password}
+                  type={passWordType ? "password" : "text"}
+                  onChange={handleInput}
                   className="w-full px-4 py-3 rounded-3xl border bg-transparent  outline-none "
                   placeholder="********"
                 />
-                <span className="absolute inset-y-0 right-4 flex items-center text-gray-400 cursor-pointer">
+                <span
+                  onClick={togglePasswordtype}
+                  className="absolute inset-y-0 right-4 flex items-center text-gray-400 cursor-pointer"
+                >
                   👁️
                 </span>
               </div>
             </div>
-
             <button
-              type="submit"
+              onClick={handleSubmitEvent}
               className="w-full bg-green-500  py-2 rounded-3xl hover:bg-green-600 transition font-bold"
             >
               Sign Up
             </button>
-          </form>
+          </div>
 
           <div className="text-center mt-6">
             <span className="text-gray-400">Already have an account? </span>

@@ -15,13 +15,13 @@ const Alert = ({
   return (
     <div className="space-y-6">
       <div
-        className={`flex items-start max-sm:flex-col ${bgColorClasses} p-4 rounded-lg relative`}
+        className={`flex items-center max-sm:flex-col ${bgColorClasses} p-4 rounded-lg relative`}
         role="alert"
       >
         <div className="flex items-center max-sm:mb-2">{icon}</div>
 
         <span
-          className={`block sm:inline text-sm ml-4 mr-8 max-sm:ml-0 max-sm:mt-2 ${fontClasses}`}
+          className={`block text-center sm:inline text-sm ml-4 mr-8 max-sm:ml-0 max-sm:mt-2 capitalize ${fontClasses}`}
         >
           {message}
         </span>

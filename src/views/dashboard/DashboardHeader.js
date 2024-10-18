@@ -44,7 +44,7 @@ const DashboardHeader = () => {
   return (
     <div>
       <div className="border-alphaLightGray bg-alphaWhite border-b-[1px] ">
-        <header className="flex justify-between items-center mx-6 md:mx-10 p-4 px-2 bg-gray-800 text-white ">
+        <header className="flex justify-between items-center mx-6 md:mx-10 p-4 px-2 text-white ">
           <div className="text-xl md:text-2xl inline text-alphaGreen font-semibold">
             <span
               className="cursor-pointer mr-4 text-alphaBlack"
@@ -54,7 +54,7 @@ const DashboardHeader = () => {
             </span>
             <h1 className="inline">alpha robotics</h1>
           </div>
-          <div className="hidden md:inline-block">
+          <div className="hidden md:inline-block text-black">
             <div className="flex justify-between items-center font-semibold">
               <h2 className="mr-7">Advanced view</h2>
               <TbMoonFilled className="inline mr-7 text-xl" />

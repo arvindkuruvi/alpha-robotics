@@ -1,13 +1,5 @@
 import React from "react";
-import Sidebar from "./Sidebar";
 import DashboardHeader from "./DashboardHeader";
-import StatsCard from "./StatsCard";
-import PositionsCard from "./PositionsCard";
-import { useState } from "react";
-import { MdAccessAlarm } from "react-icons/md";
-import { BiTargetLock } from "react-icons/bi";
-import { TfiStatsUp } from "react-icons/tfi";
-import { BsFillQuestionCircleFill } from "react-icons/bs";
 import ActivitySideBar from "./ActivitySideBar";
 import StatsSideBar from "./StatsSideBar";
 import SwitchBoxSideBar from "./SwitchBoxSideBar";

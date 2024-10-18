@@ -3,6 +3,10 @@ import Footer from "../../components/footer/Footer";
 import CardList from "../../components/card/CardList";
 import { GoDotFill } from "react-icons/go";
 import { FaCheckCircle } from "react-icons/fa";
+import { useEffect, useState } from "react";
+import { PLAN_URL } from "../../constants/Constants";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const cardList = [
   {
@@ -16,6 +20,7 @@ const cardList = [
       "Adaptive Stategy Planner",
       "24/7 Priority Support",
     ],
+    planType: "1_year",
   },
   {
     title: "1 Year Plan",
@@ -28,17 +33,51 @@ const cardList = [
       "Adaptive Stategy Planner",
       "24/7 Priority Support",
     ],
+    planType: "lifetime",
   },
 ];
 
 const pricingFooter = ["Free trial", "Cancel anytime", "Support included"];
 
 const Pricing = () => {
+  let [user_id, setUser_Id] = useState(null);
+
+  const navigate = useNavigate();
+
+  const handleChildClick = async (e) => {
+    const plan_type = e.currentTarget.getAttribute("data-planType");
+    let request = {
+      user_id,
+      plan_type,
+    };
+
+    console.debug("request ", request);
+
+    try {
+      const result = await axios.post(PLAN_URL, request);
+
+      if (result.status.toString().startsWith("2")) {
+        navigate("/dashboard", { replace: true });
+      }
+    } catch (err) {
+      console.log(err.response.data.error);
+    }
+  };
+
+  useEffect(() => {
+    let data = JSON.parse(localStorage.getItem("token"));
+    console.log(data);
+
+    if (data) {
+      setUser_Id(data.user_id);
+    }
+  });
+
   return (
     <div className="gradient-bg mx-auto ">
-      <Navbar />
+      <Navbar isloggedIn={true} />
 
-      <section className="my-24">
+      <section className={`my-24`}>
         {/* pricing header section starts */}
         <div className="text-5xl text-alphaWhite mt-9">
           <div className="text-lg border-alphaWhite bg-alphaWhite inline-block px-3 py-1 rounded-lg uppercase">
@@ -56,7 +95,7 @@ const Pricing = () => {
         </div>
         {/* pricing header section ends */}
 
-        <CardList cardList={cardList} />
+        <CardList clickEvent={handleChildClick} cardList={cardList} />
 
         {/* pricing footer starts */}
         <div className="">
@@ -75,6 +114,7 @@ const Pricing = () => {
         </div>
         {/* pricing footer ends */}
       </section>
+
       <Footer />
     </div>
   );

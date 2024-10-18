@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import loginBg from "./assets/loginBg.png";
 import { FaInstagram } from "react-icons/fa";
 import { TbBrandThreads } from "react-icons/tb";
 import { FiFacebook } from "react-icons/fi";
@@ -7,13 +6,8 @@ import { FaXTwitter } from "react-icons/fa6";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../auth/AuthProvider";
-import {
-  SuccessAlert,
-  WarningAlert,
-  ErrorAlert,
-  InfoAlert,
-} from "../../components/alert/Alert";
-import { LOGIN, LOGIN_URL, URL } from "../../constants/Constants";
+import { ErrorAlert } from "../../components/alert/Alert";
+import { LOGIN_URL } from "../../constants/Constants";
 import axios from "axios";
 
 // import
@@ -26,37 +20,35 @@ export default function LoginPage() {
     password: "",
   });
 
+  const auth = useAuth();
   const navigate = useNavigate();
 
   const handleSubmitEvent = async (e) => {
     e.preventDefault();
+    setErrorMessage("");
 
     console.log("====================================");
     console.log("inpts", inputs);
     console.log("====================================");
 
-    try {
-      const result = await axios.post(LOGIN_URL, inputs);
-      console.log("result", result);
-      if (result.status == 200) {
-        localStorage.setItem("token", result.data);
+    if (inputs.email_or_phone !== "" && inputs.password !== "") {
+      try {
+        const result = await axios.post(LOGIN_URL, inputs);
 
-        if (result.data.plan != null && result.data.plan != "") {
-          navigate("/dashboard", { replace: true });
+        if (result.status.toString().startsWith("2")) {
+          let data = result.data;
+
+          auth.setToken(data);
+
+          if (data.plan == null || data.plan == "") {
+            navigate("/pricing", { replace: true });
+          } else navigate("/dashboard", { replace: true });
         }
-      } else {
-        console.error("err", result.data.error);
-        setErrorMessage(result.data.error);
+      } catch (err) {
+        setErrorMessage(err.response.data.error);
       }
-    } catch (err) {
-      console.log("====================================");
-      console.error("err", err.message);
-      console.error("err", err);
-      console.log("====================================");
-    }
-
-    if (inputs.username !== "" && inputs.password !== "") {
-      //dispatch action from hooks
+    } else {
+      setErrorMessage("Please fill the below details");
     }
   };
 
@@ -95,10 +87,7 @@ export default function LoginPage() {
           </p>
 
           <div className="space-y-4 ">
-            <SuccessAlert message=" Login your account to get started..!" />{" "}
-            <WarningAlert message=" Login your account to get started..!" />{" "}
-            <ErrorAlert message=" Login your account to get started..!" />{" "}
-            <InfoAlert message=" Login your account to get started..!" />
+            {errorMessage ? <ErrorAlert message={errorMessage} /> : null}
             <div>
               <label
                 className="block  mb-3 font-md text-left text-alphaWhite"
@@ -107,7 +96,8 @@ export default function LoginPage() {
                 Email or phone*
               </label>
               <input
-                type="email_or_phone"
+                type="text"
+                name="email_or_phone"
                 onChange={handleInput}
                 className="w-full px-4 py-3 rounded-3xl border bg-transparent outline-none "
                 placeholder="hariuxi.dsgn@gmail.com"
@@ -122,7 +112,7 @@ export default function LoginPage() {
               </label>
               <div className="relative">
                 <input
-                  id="password"
+                  name="password"
                   onChange={handleInput}
                   type={passWordType ? "password" : "text"}
                   className="w-full px-4 py-3 rounded-3xl border bg-transparent  outline-none "
