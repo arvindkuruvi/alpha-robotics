@@ -1,12 +1,12 @@
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
-import { useAuth } from "./AuthProvider";
+import AuthProvider, { useAuth } from "./AuthProvider";
 import { ProtectedRoute } from "./ProtectedRoute";
-import Dashboard from "../testing-dashboard/Dashboard";
 import Pricing from "../pricing/Pricing";
 import ConnectBinance from "../binance/ConnectBinance";
 import Landing from "../landing/Landing";
 import LoginPage from "../login/loginPage";
 import SignupPage from "../login/signupPage";
+import Dashboard from "../dashboard/Dashboard";
 
 const AuthRoutes = () => {
   const { token } = useAuth();
@@ -21,8 +21,8 @@ const AuthRoutes = () => {
       element: <ProtectedRoute />, // Wrap the component in ProtectedRoute
       children: [
         {
-          // path: "/dashboard",
-          // element: <Dashboard />,
+          path: "/dashboard",
+          element: <Dashboard />,
         },
         {
           path: "/pricing",

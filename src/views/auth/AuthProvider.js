@@ -8,7 +8,12 @@ const AuthProvider = ({ children }) => {
 
   // Function to set the authentication token
   const setToken = (newToken) => {
-    setToken_(newToken);
+    setToken_(JSON.stringify(newToken));
+  };
+
+  const logOut = () => {
+    setToken("");
+    localStorage.removeItem("token");
   };
 
   useEffect(() => {
@@ -24,6 +29,7 @@ const AuthProvider = ({ children }) => {
     () => ({
       token,
       setToken,
+      logOut,
     }),
     [token]
   );

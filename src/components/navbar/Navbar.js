@@ -3,12 +3,15 @@ import "./Navbar.css";
 import logo from "../../assets/img/logo.png";
 import { Link } from "react-router-dom";
 
-const Navbar = () => {
+const Navbar = ({ isloggedIn }) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);
   };
+
+  let loggedInClasses = isloggedIn ? "" : "md:flex";
+  let smallScreenloggedInClasses = isloggedIn ? "" : "md:hidden";
 
   return (
     <div>
@@ -17,7 +20,7 @@ const Navbar = () => {
           <div className="text-white font-bold text-lg">
             <img src={logo} alt="Logo" />
           </div>
-          <div className="hidden md:flex space-x-8">
+          <div className={`hidden  space-x-8 ${loggedInClasses}`}>
             <Link
               to="/signup"
               className="rounded-btn navbar-sign-up-btn bg-white text-alphaGreen px-5 py-2 whitespace-nowrap"
@@ -31,7 +34,10 @@ const Navbar = () => {
               Log In
             </Link>
           </div>
-          <span className="md:hidden breadcrumb" onClick={toggleMenu}>
+          <span
+            className={`hidden breadcrumb ${smallScreenloggedInClasses}`}
+            onClick={toggleMenu}
+          >
             {isOpen ? "✖️" : "☰"}
           </span>
         </div>

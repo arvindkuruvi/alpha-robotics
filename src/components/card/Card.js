@@ -7,6 +7,8 @@ const Card = ({
   secondaryPrice,
   descriptionList,
   isPrimary,
+  planType,
+  clickEvent,
 }) => (
   <div className="bg-alphaWhite hover:shadow-xl rounded-2xl p-6 w-72 m-3 cursor">
     <h1 className="text-xl font-semibold mb-2">{title}</h1>
@@ -25,13 +27,21 @@ const Card = ({
     </div>
     {isPrimary ? (
       <div className="text-alphaWhite mt-9">
-        <button className="w-full rounded-xl bg-alphaGreen border-alphaGreen">
+        <button
+          className="w-full rounded-xl bg-alphaGreen border-alphaGreen"
+          onClick={clickEvent}
+          data-planType={planType}
+        >
           Buy Now <FaArrowRight className="inline m-2" />
         </button>
       </div>
     ) : (
       <div className="text-black mt-9">
-        <button className="w-full rounded-xl bg-alphaWhite border-black">
+        <button
+          onClick={clickEvent}
+          data-planType={planType}
+          className="w-full rounded-xl bg-alphaWhite border-black"
+        >
           Buy Now <FaArrowRight className="inline m-2" />
         </button>
       </div>
