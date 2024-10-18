@@ -26,7 +26,6 @@ export default function LoginPage() {
     password: "",
   });
 
-  const { setToken } = useAuth();
   const navigate = useNavigate();
 
   const handleSubmitEvent = async (e) => {
@@ -40,7 +39,7 @@ export default function LoginPage() {
       const result = await axios.post(LOGIN_URL, inputs);
       console.log("result", result);
       if (result.status == 200) {
-        setToken(result.data);
+        localStorage.setItem("token", result.data);
 
         if (result.data.plan != null && result.data.plan != "") {
           navigate("/dashboard", { replace: true });
