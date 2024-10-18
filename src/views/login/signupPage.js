@@ -10,7 +10,7 @@ export default function SignupPage() {
   return (
     <div
       className="flex flex-col md:flex-row h-screen bg-cover bg-center bg-no-repeat text-white bg-black"
-      style={{ backgroundImage: `url(${loginBg})` }}
+      // style={{ backgroundImage: `url(${loginBg})` }}
     >
       {/* Left Section */}
       <div className="w-full md:w-1/2 flex flex-col justify-center items-start p-8 md:p-16 max-sm:mt-14">
