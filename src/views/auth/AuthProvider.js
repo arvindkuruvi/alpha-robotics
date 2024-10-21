@@ -24,12 +24,17 @@ const AuthProvider = ({ children }) => {
     }
   }, [token]);
 
+  const getUserData = () => {
+    return JSON.parse(token);
+  };
+
   // Memoized value of the authentication context
   const contextValue = useMemo(
     () => ({
       token,
       setToken,
       logOut,
+      getUserData,
     }),
     [token]
   );
