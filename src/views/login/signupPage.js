@@ -3,10 +3,11 @@ import { FaInstagram } from "react-icons/fa";
 import { TbBrandThreads } from "react-icons/tb";
 import { FiFacebook } from "react-icons/fi";
 import { FaXTwitter } from "react-icons/fa6";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { ErrorAlert, SuccessAlert } from "../../components/alert/Alert";
 import { LOGIN_URL, SIGN_UP_URL } from "../../constants/Constants";
 import axios from "axios";
+import { useAuth } from "../auth/AuthProvider";
 
 export default function SignupPage() {
   let [passWordType, setPasswordType] = useState(true);
@@ -19,6 +20,9 @@ export default function SignupPage() {
     phone_number: "",
     password: "",
   });
+
+  const auth = useAuth();
+  const navigate = useNavigate();
 
   const handleSubmitEvent = async (e) => {
     e.preventDefault();
@@ -44,6 +48,11 @@ export default function SignupPage() {
 
           let data = result.data;
           setSuccessMessage(data.message);
+
+          const user_id = data.user_id;
+          auth.setToken({ user_id });
+
+          navigate("/pricing", { replace: true });
         }
       } catch (err) {
         let errors = [];

@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 import { PLAN_URL } from "../../constants/Constants";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { useAuth } from "../auth/AuthProvider";
 
 const cardList = [
   {
@@ -40,18 +41,18 @@ const cardList = [
 const pricingFooter = ["Free trial", "Cancel anytime", "Support included"];
 
 const Pricing = () => {
-  let [user_id, setUser_Id] = useState(null);
-
+  const auth = useAuth();
   const navigate = useNavigate();
 
   const handleChildClick = async (e) => {
     const plan_type = e.currentTarget.getAttribute("data-planType");
-    let request = {
+    const user_id = auth.getUserData().user_id;
+    const request = {
       user_id,
       plan_type,
     };
 
-    console.debug("request ", request);
+    console.log("request ", request);
 
     try {
       const result = await axios.post(PLAN_URL, request);
@@ -63,15 +64,6 @@ const Pricing = () => {
       console.log(err.response.data.error);
     }
   };
-
-  useEffect(() => {
-    let data = JSON.parse(localStorage.getItem("token"));
-    console.log(data);
-
-    if (data) {
-      setUser_Id(data.user_id);
-    }
-  });
 
   return (
     <div className="gradient-bg mx-auto ">
